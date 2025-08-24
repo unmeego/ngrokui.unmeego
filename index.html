@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ngrok Control</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Header -->
+        <header class="header">
+            <h1>NGROK CONTROL</h1>
+            <div class="header-buttons">
+                <button id="addTunnelBtn" class="add-tunnel-btn">+ New tunnel</button>
+                <button id="configBtn" class="config-btn">⚙️</button>
+            </div>
+        </header>
+
+        <!-- Main Screen -->
+        <main id="mainScreen" class="main-screen">
+            <div class="tunnels-container">
+                <div id="tunnelsList" class="tunnels-list"></div>
+                <div id="emptyState" class="empty-state">
+                    <div class="empty-icon">🚇</div>
+                    <h3>No tunnels yet</h3>
+                    <p>Create your first tunnel to get started</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Config Screen -->
+        <div id="configScreen" class="config-screen hidden">
+            <div class="config-header">
+                <button id="backBtn" class="back-btn">← Back</button>
+                <h2>Configuration</h2>
+            </div>
+            
+            <div class="config-content">
+                <div class="config-section">
+                    <h3>ngrok Status</h3>
+                    <div id="ngrokStatus" class="status-info">Checking...</div>
+                    <button id="installBtn" class="install-btn hidden">Install ngrok</button>
+                </div>
+
+                <div class="config-section">
+                    <h3>Authtoken</h3>
+                    <input type="password" id="authtokenInput" placeholder="Enter your authtoken">
+                    <button id="saveTokenBtn" class="save-btn">Save token</button>
+                    <div id="tokenStatus" class="status-message"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Tunnel Modal -->
+        <div id="addTunnelModal" class="modal hidden">
+            <div class="modal-content">
+                <h3>New tunnel</h3>
+                <form id="tunnelForm">
+                    <input type="text" id="tunnelName" placeholder="Tunnel name" required>
+                    <select id="tunnelProtocol">
+                        <option value="http">HTTP</option>
+                        <option value="tcp">TCP</option>
+                    </select>
+                    <input type="number" id="tunnelPort" placeholder="Local port" required>
+                    <input type="text" id="staticDomain" placeholder="your-domain.ngrok-free.app (optional)">
+                    <div class="modal-actions">
+                        <button type="button" id="cancelBtn" class="cancel-btn">Cancel</button>
+                        <button type="submit" class="create-btn">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Request Details Screen -->
+        <div id="requestDetailsScreen" class="request-details-screen hidden">
+            <div class="details-header">
+                <button id="requestBackBtn" class="back-btn">← Back</button>
+                <h2 id="requestTitle">Request Details</h2>
+            </div>
+            
+            <div class="request-details-content">
+                <div id="requestInfo" class="request-info"></div>
+                <div id="requestHeaders" class="request-headers"></div>
+                <div id="responseInfo" class="response-info"></div>
+            </div>
+        </div>
+
+        <!-- Tunnel Details Screen -->
+        <div id="tunnelDetailsScreen" class="tunnel-details-screen hidden">
+            <div class="details-header">
+                <button id="detailsBackBtn" class="back-btn">← Back</button>
+                <h2 id="detailsTitle">Tunnel Details</h2>
+            </div>
+            
+            <div class="details-content">
+                <div id="tunnelInfo" class="tunnel-info-section"></div>
+                <div id="tunnelLogs" class="tunnel-logs-section">
+                    <h3 id="logsTitle">Terminal</h3>
+                    <div id="detailsLogs" class="details-logs"></div>
+                    <div id="metricsContent" class="metrics-content hidden"></div>
+                    <div id="actionsContent" class="actions-content hidden"></div>
+                </div>
+            </div>
+            
+            <div class="details-footer">
+                <button id="detailsTerminalBtn" class="footer-btn active">
+                    <span class="btn-icon">💻</span>
+                    <span class="btn-text">Terminal</span>
+                </button>
+                <button id="detailsRequestsBtn" class="footer-btn">
+                    <span class="btn-icon">🌐</span>
+                    <span class="btn-text">Requests</span>
+                </button>
+                <button id="detailsMetricsBtn" class="footer-btn">
+                    <span class="btn-icon">📈</span>
+                    <span class="btn-text">Metrics</span>
+                </button>
+                <button id="detailsActionsBtn" class="footer-btn">
+                    <span class="btn-icon">⚙️</span>
+                    <span class="btn-text">Actions</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <span>ngrok Control v1.0.0</span>
+        </footer>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>
