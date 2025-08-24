@@ -36,9 +36,12 @@
       "renderer.js",
       "index.html",
       "styles.css",
+      "icon.png",
+      "Unmeego.png",
       "node_modules/**/*"
     ],
     "mac": {
+      "icon": "icon.png",
       "category": "public.app-category.developer-tools",
       "target": [
         {
@@ -48,9 +51,11 @@
       ]
     },
     "win": {
+      "icon": "icon.png",
       "target": "nsis"
     },
     "linux": {
+      "icon": "icon.png",
       "target": "AppImage"
     }
   }

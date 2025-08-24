@@ -4,12 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ngrok Control</title>
+    <link rel="icon" type="image/png" href="icon.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="app">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="welcome-screen">
+            <div class="welcome-container">
+                <div class="logo-container">
+                    <img src="Unmeego.png" alt="NGROK CONTROL" class="logo">
+                </div>
+                <div class="welcome-content">
+                    <div class="welcome-text">
+                        <h1 id="welcomeMessage">Welcome</h1>
+                        <div class="beta-info">
+                            <span class="beta-badge">BETA</span>
+                            <span class="company">unmeego.com</span>
+                        </div>
+                        <div class="loading-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Header -->
-        <header class="header">
+        <header class="header hidden">
             <h1>NGROK CONTROL</h1>
             <div class="header-buttons">
                 <button id="addTunnelBtn" class="add-tunnel-btn">+ New tunnel</button>
@@ -18,7 +42,7 @@
         </header>
 
         <!-- Main Screen -->
-        <main id="mainScreen" class="main-screen">
+        <main id="mainScreen" class="main-screen hidden">
             <div class="tunnels-container">
                 <div id="tunnelsList" class="tunnels-list"></div>
                 <div id="emptyState" class="empty-state">
@@ -124,7 +148,7 @@
         </div>
 
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer hidden">
             <span>ngrok Control v1.0.0</span>
         </footer>
     </div>

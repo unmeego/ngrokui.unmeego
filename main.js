@@ -13,9 +13,14 @@ let mainWindow;
 const configPath = path.join(os.homedir(), 'Library', 'Application Support', 'ngrok', 'ngrok.yml');
 
 function createWindow() {
+  const iconPath = path.join(__dirname, 'icon.png');
+  console.log('Icon path:', iconPath);
+  console.log('Icon exists:', fs.existsSync(iconPath));
+  
   mainWindow = new BrowserWindow({
     width: 600,
     height: 800,
+    icon: iconPath,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -53,7 +58,8 @@ ipcMain.handle('save-tunnels', (event, tunnelsArray) => {
 
 ipcMain.handle('save-authtoken', async (event, token) => {
   try {
-    const process = spawn('ngrok', ['config', 'add-authtoken', token]);
+    const ngrokPath = '/opt/homebrew/bin/ngrok';
+    const process = spawn(ngrokPath, ['config', 'add-authtoken', token]);
     await new Promise((resolve, reject) => {
       process.on('close', code => code === 0 ? resolve() : reject());
     });
@@ -66,7 +72,8 @@ ipcMain.handle('save-authtoken', async (event, token) => {
 
 ipcMain.handle('check-ngrok', async () => {
   try {
-    const process = spawn('ngrok', ['version']);
+    const ngrokPath = '/opt/homebrew/bin/ngrok';
+    const process = spawn(ngrokPath, ['version']);
     return await new Promise((resolve) => {
       let output = '';
       process.stdout.on('data', data => output += data.toString());
@@ -77,6 +84,9 @@ ipcMain.handle('check-ngrok', async () => {
         } else {
           resolve({ installed: false });
         }
+      });
+      process.on('error', () => {
+        resolve({ installed: false });
       });
     });
   } catch {
@@ -102,6 +112,8 @@ ipcMain.handle('install-ngrok', async () => {
 
 ipcMain.handle('start-tunnel', async (event, config) => {
   const { id, protocol, port, name, staticDomain } = config;
+  
+  // Skip ngrok verification since we use absolute path
   
   try {
     // Add tunnel to config file
@@ -307,15 +319,18 @@ async function startNgrokAgent() {
       
       if (tunnel && tunnel.staticDomain) {
         const args = [tunnel.protocol, `--url=${tunnel.staticDomain}`, tunnel.port];
-        ngrokProcess = spawn('ngrok', args);
+        const ngrokPath = '/opt/homebrew/bin/ngrok';
+        ngrokProcess = spawn(ngrokPath, args);
       } else {
         const args = ['start', tunnelId];
-        ngrokProcess = spawn('ngrok', args);
+        const ngrokPath = '/opt/homebrew/bin/ngrok';
+        ngrokProcess = spawn(ngrokPath, args);
       }
     } else {
       // Multiple tunnels, use config file
       const args = ['start', '--all'];
-      ngrokProcess = spawn('ngrok', args);
+      const ngrokPath = '/opt/homebrew/bin/ngrok';
+      ngrokProcess = spawn(ngrokPath, args);
     }
     
     ngrokProcess.stdout.on('data', data => {

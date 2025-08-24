@@ -1,11 +1,51 @@
 class NgrokController {
     constructor() {
         this.tunnels = new Map();
+        this.currentLanguageIndex = 0;
+        this.welcomeMessages = [
+            'Welcome',      // English
+            'Bienvenido',   // Spanish
+            '환영합니다',      // Korean
+            '欢迎',         // Chinese
+            'Willkommen',   // German
+            'Bienvenue',    // French
+            'स्वागत है'      // Hindi
+        ];
         this.init();
     }
 
     init() {
+        this.startWelcomeScreen();
         this.setupEventListeners();
+        
+        // Hide welcome screen after 4 seconds
+        setTimeout(() => {
+            this.hideWelcomeScreen();
+        }, 4000);
+    }
+    
+    startWelcomeScreen() {
+        const welcomeMessage = document.getElementById('welcomeMessage');
+        
+        this.welcomeInterval = setInterval(() => {
+            welcomeMessage.style.animation = 'none';
+            setTimeout(() => {
+                this.currentLanguageIndex = (this.currentLanguageIndex + 1) % this.welcomeMessages.length;
+                welcomeMessage.textContent = this.welcomeMessages[this.currentLanguageIndex];
+                welcomeMessage.style.animation = 'textFade 0.8s ease-in-out';
+            }, 50);
+        }, 1000);
+    }
+    
+    hideWelcomeScreen() {
+        clearInterval(this.welcomeInterval);
+        
+        document.getElementById('welcomeScreen').classList.add('hidden');
+        document.querySelector('.header').classList.remove('hidden');
+        document.getElementById('mainScreen').classList.remove('hidden');
+        document.querySelector('.footer').classList.remove('hidden');
+        
+        // Initialize app after welcome screen
         this.checkNgrokStatus();
         this.loadAuthtoken();
         this.loadSavedTunnels();
