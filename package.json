@@ -38,6 +38,7 @@
       "styles.css",
       "icon.png",
       "Unmeego.png",
+      "*.png",
       "node_modules/**/*"
     ],
     "mac": {
